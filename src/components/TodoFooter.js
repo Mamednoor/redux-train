@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TodoFooterLink from './TodoFooterLink'
+import FilterLink from '../containers/FilterLink'
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 
 const FILTER_TITLES = {
@@ -11,8 +11,8 @@ const FILTER_TITLES = {
 }
 
 const Footer = (props) => {
-	// Créez votre constante permettant de récupère tous nos props via le `destructuring assigment`.
-	// Créez votre constante `itemWord` permettant d'afficher les tâches restantes.
+	const { activeCount, completedCount, onClearCompleted } = props
+	const itemWord = activeCount >= 1 ? 'tâches restantes' : 'tâche restante'
 
 	return (
 		<footer className="footer">
@@ -26,13 +26,9 @@ const Footer = (props) => {
 					Object.keys(FILTER_TITLES).map((filter) =>
 						(
 							<li key={filter}>
-								<TodoFooterLink
-									active={currentFilter === filter}
-									onChangeFilter={onChangeFilter}
-									filter={filter}
-								>
+								<FilterLink filter={filter}>
 									{ FILTER_TITLES[filter] }
-								</TodoFooterLink>
+								</FilterLink>
 							</li>
 						))
 				}
@@ -49,6 +45,10 @@ const Footer = (props) => {
 	)
 }
 
-// Codez le propTypes du footer ici.
+Footer.propTypes = {
+	completedCount: PropTypes.number.isRequired,
+	activeCount: PropTypes.number.isRequired,
+	onClearCompleted: PropTypes.func.isRequired,
+}
 
 export default Footer
